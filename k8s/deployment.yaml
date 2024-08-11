@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-mongo-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: node-mongo-app
+  template:
+    metadata:
+      labels:
+        app: node-mongo-app
+    spec:
+      containers:
+      - name: node-mongo-app
+        image: gcr.io/laststop-gcloud-storage/node-mongo-app
+        ports:
+        - containerPort: 3000
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: MONGO_URI
