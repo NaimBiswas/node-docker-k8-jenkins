@@ -7,7 +7,7 @@ app.use(express.json());
 
 
 app.get("/", (req, res) => {
-    res.send("Server is up and running 1")
+    res.send("Server is up and running 3")
 })
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
