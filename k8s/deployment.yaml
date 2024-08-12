@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: node-mongo-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: node-mongo-app
@@ -17,9 +17,4 @@ spec:
         image: gcr.io/laststop-gcloud-storage/node-mongo-app
         ports:
         - containerPort: 3000
-        env:
-        - name: MONGO_URI
-          valueFrom:
-            secretKeyRef:
-              name: mongo-secret
-              key: MONGO_URI
+
