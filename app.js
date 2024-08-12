@@ -7,7 +7,10 @@ app.use(express.json());
 
 
 app.get("/", (req, res) => {
-    res.send("Server is up and running 4")
+    res.status(200).json({
+        message: "Hello Work from GitHub>Webhook>JenKins Pipeline>Docker>gCloud Artifact>GKE cluster",
+        ip: req?.ip
+    })
 })
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
