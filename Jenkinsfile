@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Clone repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/NaimBiswas/node-docker-k8-jenkins' // Your GitHub repository URL
+                git branch: 'main', url: 'https://github.com/NaimBiswas/node-docker-k8-jenkins.git' // Your GitHub repository URL
             }
         }
         stage('Build Docker Image') {
