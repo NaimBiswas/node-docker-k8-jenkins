@@ -2,14 +2,15 @@ pipeline {
     agent any
 
     environment {
-        GCR_CREDENTIALS = credentials('gcr-credentials') // Your GCR credentials ID in Jenkins
-        REGISTRY = 'gcr.io/laststop-gcloud-storage/node-mongo-app'  // Replace with your GCP project ID and image name
+        REGISTRY = 'gcr.io/laststop-gcloud-storage/node-mongo-app'
+        KUBECONFIG = credentials('kubeconfig')
+        KUBE_NAMESPACE = "default"
     }
 
     stages {
         stage('Clone repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/NaimBiswas/node-docker-k8-jenkins.git' // Your GitHub repository URL
+                git branch: 'main', url: 'https://github.com/NaimBiswas/node-docker-k8-jenkins.git'
             }
         }
         stage('Build Docker Image') {
@@ -22,7 +23,7 @@ pipeline {
         stage('Push Docker Image to GCR') {
             steps {
                 script {
-                    docker.withRegistry('https://gcr.io', GCR_CREDENTIALS) {
+                    docker.withRegistry('https://gcr.io', "google-container-registry") {
                         dockerImage.push()
                     }
                 }
@@ -30,12 +31,12 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                withKubeConfig([credentialsId: 'kubeconfig-credentials']) {
-                    sh '''
+                sh 'gcloud container clusters get-credentials gke-cluster --zone asia-south1-a --project laststop-gcloud-storage'
+                sh '''
                     kubectl set image deployment/node-mongo-app node-mongo-app=$REGISTRY:$BUILD_NUMBER
                     kubectl rollout status deployment/node-mongo-app
                     '''
-                }
+
             }
         }
     }

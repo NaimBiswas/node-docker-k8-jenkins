@@ -9,7 +9,6 @@ app.use(express.json());
 app.get("/", (req, res) => {
     res.status(200).json({
         message: "Hello Work from GitHub>Webhook>JenKins Pipeline>Docker>gCloud Artifact>GKE cluster",
-        ip: req?.ip
     })
 })
 app.listen(process.env.PORT, () => {
