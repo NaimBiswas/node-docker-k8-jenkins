@@ -31,7 +31,14 @@ pipeline {
         }
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'gcloud container clusters get-credentials gke-cluster --zone asia-south1-a --project laststop-gcloud-storage'
+                // kubernetesDeploy(configs: "deployment.yaml", "service.yaml")
+                // withKubeConfig([credentialsId: "kubeconfig"]) {
+                //     sh '''
+                //     kubectl set image deployment/node-mongo-app node-mongo-app=$REGISTRY:$BUILD_NUMBER
+                //     kubectl rollout status deployment/node-mongo-app
+                //     '''
+                // }
+                sh 'gcloud container clusters get-credentials gke-cluster --zone us-central1-a --project laststop-gcloud-storage'
                 sh '''
                     kubectl set image deployment/node-mongo-app node-mongo-app=$REGISTRY:$BUILD_NUMBER
                     kubectl rollout status deployment/node-mongo-app
