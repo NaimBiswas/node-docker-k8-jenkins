@@ -4,6 +4,7 @@ metadata:
   name: node-mongo-service
 spec:
   type: LoadBalancer
+  externalTrafficPolicy: Local
   selector:
     app: node-mongo-app
   ports:
